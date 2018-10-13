@@ -63,7 +63,7 @@ def save_in_db(document, q_type, tweets):
         db.insert(document, t_id, tweet['text'], tweet['created'], q_type, tweet['rt_count'], tweet['fav_count'])
 
 def search_and_save(company_q, n):
-    q = " OR ".join(company_q) + ' -filter:retweets'
+    q = ' OR '.join(company_q) + ' -filter:retweets'
 
     tweets = search(q, 100, 'recent')
     pprint.pprint(tweets)

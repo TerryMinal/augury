@@ -3,7 +3,7 @@ MMM,3M
 AXP,American express
 AAPL,Apple
 BA,Boeing
-CAT,Caterpillar
+CAT,"Caterpillar","caterpillar"
 CVX,Chevron
 CSCO,Cisco
 KO,Coca-Cola
@@ -13,8 +13,7 @@ XOM,Exxon Mobil
 GS,Goldman Sachs
 HD,Home Depot
 IBM,IBM
-INTC,Intel
-JNJ,Johnson & Johnson
+#INTC,Intel
 JPM,JPMorgan Chase
 MCD,McDonald's
 MRK,Merck
@@ -44,23 +43,29 @@ CTRP,Ctrip
 MRVL,Marvell
 ATVI,Activision Blizzard
 FITB,Fifth Third Bancorp
-AMZN,Amazon.com
+AMZN,Amazon
 SHLD,Sears
 SYMC,Symantec
 MYL,Mylan
 EBAY,Ebay
 JBLU,Jetblue Airways
 ENDP,Endo Pharmaceuticals
-FLEX,Flextronics
-PBCT,Peoples Bank
 BBBY,Bed Bath & Beyond
 GILD,Gilead Sciences
-MCHP,Microchip
-FAST,Fastenal
-GPRO,Gen Probe
 CTSH,Cognizant
 ADBE,Adobe
 STX,Seagate
 CELG,Celgene
 NVAX,Novavax
-GERN,Geron
+GOOG,GOOGL,Google
+FB,Facebook
+#MISC
+TSLA,Tesla
+BRK-A,BRK-B,Berkshire Hathaway
+BABA,Alibaba
+WFC,Wells Fargo
+CVX,Chevron
+RHHBY,Roche
+ORCL,Oracle
+C,Citigroup
+NVS,Novartis
