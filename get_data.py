@@ -13,6 +13,7 @@ def main():
 
     docs = db.collection('companies').get()
 
+    print(docs)
     for doc in docs:
         print(doc)
         pprint(doc.to_dict())
