@@ -1,9 +1,11 @@
 from config import TWITTER_API_KEY, TWITTER_API_SECRET_KEY
+import db
 
 import base64
 import requests
 import json
 import pprint
+import time
 
 def get_credentials():
     return TWITTER_API_KEY + ':' + TWITTER_API_SECRET_KEY
@@ -31,8 +33,8 @@ def parse_tweets(json):
         tweets[tweet['id']] = {
             'text': tweet['text'].encode('ascii','ignore'),
             'created': tweet['created_at'],
-            'retweet_count': tweet['retweet_count'],
-            'favorite_count': tweet['favorite_count']
+            'rt_count': tweet['retweet_count'],
+            'fav_count': tweet['favorite_count']
         }
 
     return tweets
@@ -52,7 +54,22 @@ def search(query, n, result_type):
 
     return parse_tweets(r.json())
 
-def main():
-    pprint.pprint(search('"tesla" OR "Tesla"', 100, 'recent'))
+def save_in_db(tweets):
+    for tweet in tweets:
+        t_id = tweet
+        tweet = tweets[tweet]
+        db.insert(t_id, tweet['text'], tweet['created'], tweet['rt_count'], tweet['fav_count'])
 
-main()
+def main():
+    tweets = search('"tesla" OR "Tesla" -filter:retweets', 100, 'recent')
+    pprint.pprint(tweets)
+    save_in_db(tweets)
+
+    tweets = search('"tesla" OR "Tesla" -filter:retweets', 100, 'popular')
+    pprint.pprint(tweets)
+    save_in_db(tweets)
+
+    time.sleep(4)
+
+while True:
+    main()
