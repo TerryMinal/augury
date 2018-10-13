@@ -24,6 +24,7 @@ def db_setup():
     id INTEGER PRIMARY KEY,
     text TEXT,
     created TEXT,
+    q_type TEXT,
     rt_count INTEGER,
     fav_count INTEGER,
     score DOUBLE,
@@ -45,23 +46,24 @@ def check_duplicate(text):
     return len(c.fetchall()) > 0
 
 
-def insert(t_id, text, created, rt_count, fav_count):
+def insert(document, t_id, text, created, q_type, rt_count, fav_count):
     conn, c = get_cursor()
 
-    if not check_duplicate(text):
+    if check_duplicate(text):
         print('Duplicate')
         return
 
     # SQL command to insert the data in the table
     try:
-        sql_command = """INSERT INTO tweets VALUES (%d, '%s', '%s', %d, %d, %f, %f);""" % (t_id, text.replace("'", "''"), created, rt_count, fav_count, 0, 0)
+        sql_command = """INSERT INTO tweets VALUES (%d, '%s', '%s', '%s', %d, %d, %f, %f);""" % (t_id, text.replace("'", "''"), created, q_type, rt_count, fav_count, 0, 0)
         c.execute(sql_command)
         conn.commit()
 
-        doc_ref = db.collection('tweets').document(str(t_id))
+        doc_ref = db.collection('companies').document(document).collection('tweets').document(str(t_id))
         doc_ref.set({
             'text': text,
             'created': created,
+            'q_type': q_type,
             'rt_count': rt_count,
             'fav_count': fav_count,
             'score': 0,

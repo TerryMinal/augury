@@ -5,7 +5,8 @@ import base64
 import requests
 import json
 import pprint
-import time
+
+from ratelimit import limits
 
 def get_credentials():
     return '{}:{}'.format(TWITTER_API_KEY, TWITTER_API_SECRET_KEY)
@@ -39,6 +40,7 @@ def parse_tweets(json):
 
     return tweets
 
+@limits(calls=450, period=900)
 def search(query, n, result_type):
     assert n > 0 and n <= 100
     assert result_type == 'recent' or result_type == 'mixed' or result_type == 'popular'
@@ -54,22 +56,31 @@ def search(query, n, result_type):
 
     return parse_tweets(r.json())
 
-def save_in_db(tweets):
+def save_in_db(document, q_type, tweets):
     for tweet in tweets:
         t_id = tweet
         tweet = tweets[tweet]
-        db.insert(t_id, tweet['text'], tweet['created'], tweet['rt_count'], tweet['fav_count'])
+        db.insert(document, t_id, tweet['text'], tweet['created'], q_type, tweet['rt_count'], tweet['fav_count'])
+
+def search_and_save(company_q, n):
+    q = " OR ".join(company_q) + ' -filter:retweets'
+
+    tweets = search(q, 100, 'recent')
+    pprint.pprint(tweets)
+    save_in_db(q, 'recent', tweets)
+
+    tweets = search(q, 100, 'popular')
+    pprint.pprint(tweets)
+    save_in_db(q, 'popular', tweets)
 
 def main():
-    tweets = search('"tesla" OR "Tesla" -filter:retweets', 100, 'recent')
-    pprint.pprint(tweets)
-    save_in_db(tweets)
+    f = open('companies.txt', 'r')
 
-    tweets = search('"tesla" OR "Tesla" -filter:retweets', 100, 'popular')
-    pprint.pprint(tweets)
-    save_in_db(tweets)
-
-    time.sleep(4)
+    line = f.readline()
+    while line:
+        if not line.startswith('#'):
+            search_and_save(line.split(','), 100)
+        line = f.readline()
 
 while True:
     main()
