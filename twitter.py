@@ -8,19 +8,19 @@ import pprint
 import time
 
 def get_credentials():
-    return TWITTER_API_KEY + ':' + TWITTER_API_SECRET_KEY
+    return '{}:{}'.format(TWITTER_API_KEY, TWITTER_API_SECRET_KEY)
 
 def encode_base64(s):
-    return base64.b64encode(s)
+    return base64.b64encode(s.encode('utf-8'))
 
 def get_bearer_token():
-    token = encode_base64(get_credentials())
+    token = encode_base64(get_credentials()).decode('ascii')
     r = requests.post('https://api.twitter.com/oauth2/token',
-                     headers={
-                         'Authorization': 'Basic ' + token,
-                         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-                     },
-                     data='grant_type=client_credentials'
+                    headers={
+                        'Authorization': 'Basic {}'.format(token),
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                    },
+                    data='grant_type=client_credentials'
     )
 
     r = r.json()
@@ -31,7 +31,7 @@ def parse_tweets(json):
     tweets = {}
     for tweet in json['statuses']:
         tweets[tweet['id']] = {
-            'text': tweet['text'].encode('ascii','ignore'),
+            'text': tweet['text'],
             'created': tweet['created_at'],
             'rt_count': tweet['retweet_count'],
             'fav_count': tweet['favorite_count']
