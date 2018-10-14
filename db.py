@@ -76,6 +76,15 @@ def insert(company, t_id, text, created, q_type, rt_count, fav_count):
 
     conn.close()
 
+def get_tweets():
+    conn, c = get_cursor()
+    sql_command = """SELECT * FROM tweets;"""
+    c.execute(sql_command)
+
+    conn.close()
+
+    return c.fetchall()
+
 def main():
     db_setup()
 
