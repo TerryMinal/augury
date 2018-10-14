@@ -81,7 +81,7 @@ def main():
     line = f.readline()
     while line:
         if not line.startswith('#'):
-            search_and_save(line.split(','), 100)
+            search_and_save(line.split(',').rstrip('\n'), 100)
         line = f.readline()
 
 while True:

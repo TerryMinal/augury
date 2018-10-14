@@ -1,13 +1,13 @@
-from config import FIRESTORE_CERT
+# from config import FIRESTORE_CERT
 
 import sqlite3
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
+# import firebase_admin
+# from firebase_admin import credentials
+# from firebase_admin import firestore
 
-cred = credentials.Certificate(FIRESTORE_CERT)
-firebase_admin.initialize_app(cred)
-db = firestore.client()
+# cred = credentials.Certificate(FIRESTORE_CERT)
+# firebase_admin.initialize_app(cred)
+# db = firestore.client()
 
 def get_cursor():
     # connecting to the database
@@ -92,4 +92,7 @@ def main():
     print(get_tweets())
 
 if __name__ == "__main__":
-    main()
+    x = get_tweets()
+    print(x[45][2])
+    #1: company name
+    

@@ -1,0 +1,5 @@
+google-cloud-language
+keras
+metrics
+sklearn
+scipy

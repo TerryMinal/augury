@@ -78,14 +78,19 @@ def sentimentList(data, entity):
         # print("cursent",curSent)
         score.append(curSent["score"])
         magnitude.append(curSent["magnitude"])
+    magnitude.sort()
     return {"score":score, "magnitude":magnitude}
 
 # assumes data is sorted
 # uses x = (x-xmin)/(xmax - xmin)
 # perform on magnitude
 def normalize(data):
+    if len(data) == 0:
+        return [0]
     xmax = data[len(data) - 1]
     xmin = data[0]
+    if xmax - xmin <= 0:
+        return data
     for index in range(0, len(data)):
         data[index] = float( (data[index]-xmin)/(xmax - xmin) )
     return data
