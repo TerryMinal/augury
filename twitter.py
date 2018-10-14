@@ -6,7 +6,7 @@ import requests
 import json
 import pprint
 
-from ratelimit import limits
+from ratelimit import limits, sleep_and_retry
 
 def get_credentials():
     return '{}:{}'.format(TWITTER_API_KEY, TWITTER_API_SECRET_KEY)
@@ -40,7 +40,8 @@ def parse_tweets(json):
 
     return tweets
 
-@limits(calls=450, period=900)
+@sleep_and_retry
+@limits(calls=225, period=900)
 def search(query, n, result_type):
     assert n > 0 and n <= 100
     assert result_type == 'recent' or result_type == 'mixed' or result_type == 'popular'
