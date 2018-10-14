@@ -56,11 +56,11 @@ def search(query, n, result_type):
 
     return parse_tweets(r.json())
 
-def save_in_db(document, q_type, tweets):
+def save_in_db(company, q_type, tweets):
     for tweet in tweets:
         t_id = tweet
         tweet = tweets[tweet]
-        db.insert(document, t_id, tweet['text'], tweet['created'], q_type, tweet['rt_count'], tweet['fav_count'])
+        db.insert(compnay, t_id, tweet['text'], tweet['created'], q_type, tweet['rt_count'], tweet['fav_count'])
 
 def search_and_save(company_q, n):
     q = ' OR '.join(company_q) + ' -filter:retweets'

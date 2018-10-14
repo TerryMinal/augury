@@ -11,8 +11,10 @@ def main():
     firebase_admin.initialize_app(cred)
     db = firestore.client()
 
-    docs = db.collection('companies').get()
+    doc_ref = db.collection('Apple')
+    print(doc_ref)
 
+    docs = doc_ref.get()
     print(docs)
     for doc in docs:
         print(doc)

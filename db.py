@@ -22,6 +22,7 @@ def db_setup():
     # SQL command to create a table in the database
     sql_command = """CREATE TABLE tweets (
     id INTEGER PRIMARY KEY,
+    company TEXT,
     text TEXT,
     created TEXT,
     q_type TEXT,
@@ -46,7 +47,7 @@ def check_duplicate(text):
     return len(c.fetchall()) > 0
 
 
-def insert(document, t_id, text, created, q_type, rt_count, fav_count):
+def insert(company, t_id, text, created, q_type, rt_count, fav_count):
     conn, c = get_cursor()
 
     if check_duplicate(text):
@@ -55,11 +56,11 @@ def insert(document, t_id, text, created, q_type, rt_count, fav_count):
 
     # SQL command to insert the data in the table
     try:
-        sql_command = """INSERT INTO tweets VALUES (%d, '%s', '%s', '%s', %d, %d, %f, %f);""" % (t_id, text.replace("'", "''"), created, q_type, rt_count, fav_count, 0, 0)
+        sql_command = """INSERT INTO tweets VALUES (%d, '%s', '%s', '%s', '%s', %d, %d, %f, %f);""" % (t_id, company, text.replace("'","''"), created, q_type, rt_count, fav_count, 0, 0)
         c.execute(sql_command)
         conn.commit()
 
-        doc_ref = db.collection('companies').document(document).collection('tweets').document(str(t_id))
+        doc_ref = db.collection(company).document(str(t_id))
         doc_ref.set({
             'text': text,
             'created': created,
