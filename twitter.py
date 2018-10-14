@@ -64,14 +64,15 @@ def save_in_db(document, q_type, tweets):
 
 def search_and_save(company_q, n):
     q = ' OR '.join(company_q) + ' -filter:retweets'
+    company_name = company_q[len(company_q)-1]
 
     tweets = search(q, 100, 'recent')
     pprint.pprint(tweets)
-    save_in_db(q, 'recent', tweets)
+    save_in_db(company_name, 'recent', tweets)
 
     tweets = search(q, 100, 'popular')
     pprint.pprint(tweets)
-    save_in_db(q, 'popular', tweets)
+    save_in_db(company_name, 'popular', tweets)
 
 def main():
     f = open('companies.txt', 'r')
