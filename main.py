@@ -1,3 +1,4 @@
+# remember to source GOOGLE_APPLICATION_CREDENTIALS=PATH TO AUGURY JSON
 import ml
 from generate_post import create_post
 
