@@ -24,8 +24,9 @@ def sentimentText(text, entity):
     result = client.analyze_entity_sentiment(document, encoding)
     entities = result.entities
     for ent in entities:
-        if ent.name == entity:
-            return [ent.sentiment.score, ent.sentiment.magnitude]
+        if ent.name == entity and ent is not None:
+            return {"score": ent.sentiment.score, "magnitude": ent.sentiment.magnitude}
+    return {"score": 0.0, "magnitude": 0.0}
     # ret = result.entities[]
     #     returns a format similar to this: ranked by salience
     #     {
@@ -67,30 +68,44 @@ def sentimentText(text, entity):
     #         print(u'  Type : {}'.format(mention.type))
     #     print(u'Salience: {}'.format(entity.salience))
     #     print(u'Sentiment: {}\n'.format(entity.sentiment))
+
+# returns list of sentiment data in form [score, magnitude]
+def sentimentList(data, entity):
+    score = []
+    magnitude = []
+    for text in data:
+        curSent = sentimentText(text, entity)
+        # print("cursent",curSent)
+        score.append(curSent["score"])
+        magnitude.append(curSent["magnitude"])
+    return {"score":score, "magnitude":magnitude}
+
 # assumes data is sorted
 # uses x = (x-xmin)/(xmax - xmin)
-def normalizeData(data):
+# perform on magnitude
+def normalize(data):
     xmax = data[len(data) - 1]
     xmin = data[0]
     for index in range(0, len(data)):
-        data[i] = float( (data[i]-xmin)/(xmax - xmin) )
+        data[index] = float( (data[index]-xmin)/(xmax - xmin) )
     return data
 
-# takes the median of the data
+# adds up all the scores takes the median of the list of magnitude
 def aggregateData(data):
-    midpoint = len(data)/2
-    return data[midpoint]
-
-# returns list of sentiment data
-def sentimentList(data, entity):
-    ret = []
-    for text in data:
-        ret.append(sentimentText(text, entity))
-    return ret
+    totalScore = 0
+    for score in data["score"]:
+        totalScore += score
+    midpoint = len(data["magnitude"])/2
+    return {"score": totalScore, "magnitude": data["magnitude"][int(midpoint)]}
 
 if __name__ == "__main__":
     str = "Stocks on Wall Street tumbled again on Thursday, as choppy early trading gave way to another bout of broad-based selling.\
     The declines were widespread, touching everything from previously high-flying tech shares to usually insulated sectors like consumer staples and utilities. \
     When the dust settled, every sector of the Standard & Poor’s 500-stock index had dropped, leaving the stock market benchmark down an additional 2.1 percent. \
     That slump followed Wednesday’s 3.3 percent decline, which was the market’s biggest dive in eight months."
-    print(sentimentText(str, "stocks"))
+    li = ["But the short bet against Tesla has worked out well for Einhorn. The stock plunged nearly 25% during the third quarter and #Einhorn wrote that it was his fund's second best performer. Tesla shares were down another 7% on Friday",\
+    "Tesla needs over $1 billion in cash over the next 6 months, and Wall Street is going nuts figuring out where it's going to come from"]
+    # print(sentimentText(li[1], "tesla"))
+    # print(sentimentList(li, "tesla"))
+    # print(normalize([1,2,3,4,7,9,11,12,71, 52]))
+    # print(aggregateData(sentimentList(li, "tesla")))
