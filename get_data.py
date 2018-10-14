@@ -11,7 +11,7 @@ def main():
     firebase_admin.initialize_app(cred)
     db = firestore.client()
 
-    doc_ref = db.collection('Apple')
+    doc_ref = db.collection('top')
     print(doc_ref)
 
     docs = doc_ref.get()

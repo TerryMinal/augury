@@ -15,12 +15,22 @@
 
 /* Jekyll Bootstrap Colors */
 h1, h2, h3, h4 {
-  color: #f22430;
+    color: #9c28e0;
+}
+.navbar {
+    background-image: linear-gradient(to bottom, #9e3ad8 0,#9d32db 100%);
+}
+.navbar-default .navbar-nav>li>a, .navbar-default .navbar-brand {
+    color: white;
 }
 #footer {
-  background-color: #fdcd60;
+    background-color: #9d32db;
+    color: white;
+    text-align: center;
 }
-
+.page-header {
+    text-align: center;
+}
 
 
 /* posts index */

@@ -1,18 +1,12 @@
 ---
 layout: page
 title: About
+group: navigation
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+#### Augury is more than just another investing model.
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+Augury uses machine learning and data collected from tweets, news articles, and stock data to help you stay ahead of the curve. We assess the general public’s sentiment about a stock and use current news and stock information to make suggestions for which stock you should invest in.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
-
-
-[jekyll-organization]: https://github.com/jekyll
+### Invest smarter with Augury.
