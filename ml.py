@@ -47,6 +47,7 @@ def getData(comp, limiter):
     # get data from stock info and put into dataList
     # append dataList to ret
 
+# limiter is the number of tweets you want
 def getAllData(companies, limiter):
     ret = []
     for company in companies:
@@ -60,6 +61,9 @@ def trainModel(dataset):
     joblib.dump(model, "model.joblib")
     return model
 
+def updateModel():
+    dataset = np.array(getAllData(companies.keys(), 400))
+    trainModel(dataset)
 
 def getModel():
     return joblib.load("model.joblib")
@@ -68,6 +72,7 @@ def getModel():
 def predict(arr):
     model = getModel()
     return model.predict(arr)
+
 # b is an int of desired prediction. 0: sell, 1:neutral, 2: buy
 def recommend(b):
     global companies
@@ -76,7 +81,7 @@ def recommend(b):
         pred = predict([x])
         pred = pred.tolist()
         if pred == [b]:
-            return comp
+            return [comp, pred[0], x]
 
 if __name__ == "__main__":
     # dataset = np.array(getAllData(companies.keys(), 400))
