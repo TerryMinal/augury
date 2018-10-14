@@ -81,12 +81,15 @@ def get_tweets():
     sql_command = """SELECT * FROM tweets;"""
     c.execute(sql_command)
 
+    data = c.fetchall()
+
     conn.close()
 
-    return c.fetchall()
+    return data
 
 def main():
-    db_setup()
+    #db_setup()
+    print(get_tweets())
 
 if __name__ == "__main__":
     main()
