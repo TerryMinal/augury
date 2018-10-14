@@ -75,7 +75,7 @@ def search_and_save(company_q, n):
     pprint.pprint(tweets)
     save_in_db(company_name, 'popular', tweets)
 
-def main():
+def run():
     f = open('companies.txt', 'r')
 
     line = f.readline()
@@ -84,5 +84,8 @@ def main():
             search_and_save(line.split(',').rstrip('\n'), 100)
         line = f.readline()
 
-while True:
-    main()
+    f.close()
+
+if __name__ == '__main__':
+    while True:
+        run()
