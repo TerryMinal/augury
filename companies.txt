@@ -13,7 +13,7 @@ HD,Home Depot
 IBM,IBM
 #INTC,Intel
 JPM,JPMorgan Chase
-MCD,McDonald's
+MCD,McDonalds
 MRK,Merck
 MSFT,Microsoft
 NKE,Nike
