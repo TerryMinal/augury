@@ -64,14 +64,25 @@ def trainModel(dataset):
 def getModel():
     return joblib.load("model.joblib")
 
+# pass in array in this form: [score, magnitude, revenue, earnings per share, return on equity]
 def predict(arr):
     model = getModel()
     return model.predict(arr)
-
+# b is an int of desired prediction. 0: sell, 1:neutral, 2: buy
+def recommend(b):
+    global companies
+    for comp in companies.keys():
+        x = np.array(getData(comp, 100))
+        pred = predict([x])
+        pred = pred.tolist()
+        if pred == [b]:
+            return comp
 
 if __name__ == "__main__":
-    dataset = np.array(getAllData(companies.keys(), 400))
-    trainModel(dataset)
+    # dataset = np.array(getAllData(companies.keys(), 400))
+    # trainModel(dataset)
+    # print(predict([np.array(getData("Tesla", 300))]))
+    print(recommend(1))
 # print(dataset)
 # dataset = getAllData(companies.keys())
 # use np.array
